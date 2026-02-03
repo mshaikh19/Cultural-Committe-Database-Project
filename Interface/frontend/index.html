@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAIICT Cultural Committee Database</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #fef5ff 0%, #f0f4ff 50%, #fff5f7 100%);
+            color: #4a5568;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            z-index: 0;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .orb1 {
+            top: 80px;
+            left: 40px;
+            width: 300px;
+            height: 300px;
+            background: #ddd6fe;
+        }
+
+        .orb2 {
+            top: 160px;
+            right: 40px;
+            width: 300px;
+            height: 300px;
+            background: #fbcfe8;
+            animation-delay: 700ms;
+        }
+
+        .orb3 {
+            bottom: 80px;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: #bfdbfe;
+            animation-delay: 1000ms;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+
+        header {
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(216, 180, 254, 0.3);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.08);
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #ddd6fe, #fce7f3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a78bfa, #f9a8d4, #93c5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(139, 92, 246, 0.12);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .icon-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.18);
+        }
+
+        .icon-box.purple { background: linear-gradient(135deg, #ddd6fe, #e9d5ff); }
+        .icon-box.blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+        .icon-box.green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+
+        main {
+            position: relative;
+            z-index: 10;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid #e9d5ff;
+            color: #7c3aed;
+            font-size: 16px;
+        }
+
+        .tab:hover {
+            background: rgba(237, 233, 254, 0.8);
+            transform: translateY(-2px);
+            border-color: #c4b5fd;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+        }
+
+        .tab.active {
+           background: linear-gradient(90deg, #ddd6fe, #fce7f3);
+           box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+           color: #6d28d9;
+           border-color: #c4b5fd;
+        }
+/* 
+        .tab[data-tab="organizers"] {
+          Optional subtle difference, for example a pastel highlight
+          background: rgba(200, 180, 255, 0.5);
+             color: #5a2a85;
+            } */
+
+/* .tab[data-tab="organizers"].active {
+    background: linear-gradient(90deg, #cbb9fc, #f9a5be);
+    box-shadow: 0 4px 20px rgba(203, 185, 252, 0.5);
+    color: white;
+} */
+
+
+        .search-section {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid #e9d5ff;
+            border-radius: 12px;
+            color: #4a5568;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #c4b5fd;
+            box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.2);
+        }
+
+        .search-box input::placeholder {
+            color: #a5b4fc;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a5b4fc;
+        }
+
+        .add-btn {
+            padding: 16px 24px;
+            background: linear-gradient(90deg, #ddd6fe, #fce7f3);
+            border: none;
+            border-radius: 12px;
+            color: #6d28d9;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+        }
+
+        .content-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .events-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .members-grid {
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        }
+
+        .categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(250, 245, 255, 0.9));
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            border: 2px solid rgba(221, 214, 254, 0.4);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.08);
+            transition: all 0.3s;
+            color: #4a5568;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(139, 92, 246, 0.12);
+            border-color: rgba(196, 181, 253, 0.5);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #5b21b6;
+            transition: color 0.3s;
+        }
+
+        .card:hover .card-title {
+            color: #7c3aed;
+        }
+
+        .card-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #a5b4fc;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background: rgba(191, 219, 254, 0.5);
+            color: #3b82f6;
+        }
+
+        .edit-btn:hover {
+            background: rgba(147, 197, 253, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .delete-btn {
+            background: rgba(254, 202, 202, 0.5);
+            color: #ef4444;
+        }
+
+        .delete-btn:hover {
+            background: rgba(252, 165, 165, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .badge-category {
+            background: linear-gradient(90deg, rgba(221, 214, 254, 0.6), rgba(252, 231, 243, 0.6));
+            color: #7c3aed;
+        }
+
+        .badge-completed {
+            background: rgba(167, 243, 208, 0.6);
+            color: #059669;
+        }
+
+        .badge-upcoming {
+            background: rgba(191, 219, 254, 0.6);
+            color: #2563eb;
+        }
+
+        .badge-planning {
+            background: rgba(254, 240, 138, 0.6);
+            color: #d97706;
+        }
+
+        .member-card {
+            display: flex;
+            gap: 16px;
+        }
+
+        .member-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #ddd6fe, #fce7f3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #7c3aed;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #5b21b6;
+        }
+
+        .member-role {
+            font-size: 14px;
+            color: #a5b4fc;
+            margin-bottom: 12px;
+        }
+
+        .member-details {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .category-card {
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            transition: transform 0.3s;
+            border: 2px solid rgba(221, 214, 254, 0.4);
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+            border-color: rgba(196, 181, 253, 0.6);
+        }
+
+        .category-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #5b21b6;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(237, 233, 254, 0.4);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 245, 255, 0.95));
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid rgba(221, 214, 254, 0.5);
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a78bfa, #f9a8d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(221, 214, 254, 0.3);
+            color: #7c3aed;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(221, 214, 254, 0.5);
+            border-radius: 12px;
+            color: #4a5568;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #c4b5fd;
+            box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ddd6fe, #fce7f3);
+            border: none;
+            border-radius: 12px;
+            color: #6d28d9;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .events-grid, .members-grid, .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .search-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="bg-orb orb3"></div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>Cultural Committee</h1>
+                    <p>DA-IICT</p>
+                </div>
+            </div>
+            <div class="header-icons">
+                <div class="icon-box purple">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                    </svg>
+                </div>
+                <div class="icon-box blue">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <div class="icon-box green">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="tabs">
+            <button class="tab active" data-tab="events">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span>Events</span>
+            </button>
+            <button class="tab" data-tab="members">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span>Members</span>
+            </button>
+            <button class="tab" data-tab="organizers">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span>Organizers</span>
+            </button>
+            
+            <button class="tab" data-tab="venues">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span>Venue</span>
+            </button>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search...">
+            </div>
+            <button class="add-btn" onclick="openModal()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span id="addBtnText">Add Event</span>
+            </button>
+        </div>
+
+        <div id="eventsContent" class="content-grid events-grid"></div>
+        <div id="membersContent" class="content-grid members-grid hidden"></div>
+        <div id="organizersContent" class="content-grid members-grid hidden"></div>
+        <div id="vendorsContent" class="content-grid members-grid hidden"></div>
+        <div id="venuesContent" class="content-grid categories-grid hidden"></div>
+
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add Event</h2>
+                <button class="close-btn" onclick="closeModal()">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="modalForm" method="POST" action="">
+
+                <!-- Events Inputs -->
+                <div class="form-group" id="eventFieldName">
+                    <input type="text" id="formName" class="form-input" placeholder="Event Name" required name="eventName">
+                </div>
+                <div class="form-group" id="eventFieldStartDate">
+                    <input type="date" id="formStartDate" class="form-input" placeholder="Start Date" required name="eventStartDate">
+                </div>
+                
+                <div class="form-group" id="eventFieldsEndDate">
+                    <input type="date" id="formEndDate" class="form-input" placeholder="End Date" name="eventEndDate">
+                </div>
+                
+                <div class="form-group" id="eventFieldsDesc">
+                    <textarea id="formDesc" name="eventDesc" class="form-input" placeholder="Description / Details" rows="4"></textarea>
+                </div>
+
+                <div class="form-group" id="eventFieldsVenue">
+                    <input type="text" id="formVenueName" class="form-input" placeholder="Venue Name" name="venueName">
+                </div>
+                
+                <div class="form-group" id="eventFieldsStatus">
+                    <select id="formStatus" name="status" class="form-input" required>
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="Scheduled">Scheduled</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Upcoming">Upcoming</option>
+                        <option value="Planning">Planning</option>
+                    </select>
+                </div>
+
+                <!-- Cultural Committee Member -->
+                
+                <div class="form-group hidden" id="memberFields">
+                    <input type="text" id="formDepartment" class="form-input" placeholder="Department">
+                </div>
+                <div class="form-group hidden" id="memberFields2">
+                    <input type="email" id="formContact" class="form-input" placeholder="Contact Email">
+                </div>
+                
+                <input type="hidden" id="editingId" name="editingId" value="">
+                <button type="submit" class="submit-btn" id="modalSubmit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let activeTab = 'events';
+        let editingId = null;
+        
+        let events = {{EVENTS_DATA}};
+
+        let members = {{MEMBERS_DATA}};
+
+        let organizers = {{ORGANIZERS_DATA}};
+
+        let vendors = [
+        { id: 1, name: 'Creative Caterers', vendorType: 'Catering', contact: 'catering@daiict.ac.in' },
+        { id: 2, name: 'Sound Solutions', vendorType: 'Audio Equipment', contact: 'sound@daiict.ac.in' },
+        { id: 3, name: 'Floral Designs', vendorType: 'Decoration', contact: 'floral@daiict.ac.in' }
+        ];
+
+        let venues = {{VENUES_DATA}};
+
+        function renderEvents(eventList = events) {
+            const container = document.getElementById('eventsContent');
+            container.innerHTML = eventList.map(event => `
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">${event.eventName}</h3>
+                            <div class="card-date">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <span>${event.startDate} - ${event.endDate}</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn edit-btn" onclick="editEvent('${event.eventName}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteEvent('${event.eventName}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="info-row">
+                            <span class="badge badge-category">${event.eventDesc}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Status</span>
+                            <span class="badge ${event.status === 'Completed' ? 'badge-completed' : event.status === 'Upcoming' ? 'badge-upcoming' : 'badge-planning'}">${event.status}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Venue</span>
+                            <span style="font-weight: bold; color: #c084fc;">${event.venueName}</span>
+                        </div>
+                        
+                        <div class="info-row" style="margin-top: 15px;">
+                        <button class="action-btn" 
+                                style="
+                                    background: linear-gradient(90deg, rgba(230, 230, 250, 0.9), rgba(216, 191, 216, 0.8));
+                                    color: #4B0082; 
+                                    border: none; 
+                                    border-radius: 8px; 
+                                    padding: 10px 15px; 
+                                    font-weight: bold; 
+                                    cursor: pointer;
+                                    font-size: 1.1em; /* Slightly larger text */
+                                    
+                                    /* CRITICAL STYLES FOR FULL WIDTH: */
+                                    width: 100%; 
+                                    display: block; 
+                                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+                                " 
+                                onclick="showParticipantsDialog('${event.eventName}')">
+                            View Participants
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        
+        async function showParticipantsDialog(eventName) {
+            // FIX 1: Add 'const' before dialogContainer for proper declaration.
+            const overlay = document.getElementById('dialogOverlay'); 
+            const dialogContainer = document.getElementById('participantsDialog'); // <-- FIXED
+
+            if (!dialogContainer || !overlay) { // Added overlay check here too
+                alert("Error: Participant dialog element not found. Check the HTML element IDs.");
+                return;
+            }
+
+            // Set initial loading state and visibility
+            dialogContainer.innerHTML = `<h2>Participants for ${eventName}</h2><p>Loading...</p>`;
+            overlay.style.display = 'block'; // Show the overlay
+            dialogContainer.style.display = 'block';
+
+            try {
+                const endpoint = `/api/participants?event=${encodeURIComponent(eventName)}`;
+                const response = await fetch(endpoint);
+                
+                // FIX 2: Check for a successful HTTP status before parsing JSON
+                if (!response.ok) {
+                    // Read the server's error message (which might be HTML or JSON)
+                    const errorText = await response.text();
+                    throw new Error(`Server returned HTTP ${response.status}. Response: ${errorText.substring(0, 100)}...`);
+                }
+                
+                const participants = await response.json();
+
+                // Pass the fetched data to the rendering function
+                renderParticipants(participants, dialogContainer, eventName);
+
+            } catch (error) {
+                console.error("Error fetching participants:", error);
+                
+                // Detailed Error Message in Dialog
+                dialogContainer.innerHTML = `
+                    <h2>Participants for ${eventName}</h2>
+                    <p style="color: #FF6961; font-weight: bold;">Failed to load data.</p>
+                    <p style="font-size: 0.9em;">Reason: ${error.message}</p>
+                    <button onclick="document.getElementById('participantsDialog').style.display='none'; 
+                                    document.getElementById('dialogOverlay').style.display='none';" 
+                            style="margin-top: 20px; padding: 10px 15px; background-color: #ADD8E6; 
+                                color: #333; border: none; border-radius: 4px; cursor: pointer;">
+                        Close
+                    </button>
+                `;
+            }
+        }
+
+        
+        function renderParticipants(participantList, containerElement, eventName) {
+            if (!containerElement) return;
+
+            // Common pastel colors for styling
+            const PRIMARY_COLOR = '#6d28d9'; // Purple
+            const STATUS_CONFIRMED = '#81C784'; // Soft Green
+            const STATUS_PENDING = '#FFD54F';  // Soft Yellow/Amber
+            const STATUS_TEXT = '#333';
+            const CLOSE_BTN_BG = '#ADD8E6'; // Light Blue/Teal
+
+            if (participantList.length === 0) {
+                containerElement.innerHTML = `
+                    <div style="padding: 15px;">
+                        <h2 style="color: ${PRIMARY_COLOR}; margin-bottom: 20px;">Participants</h2>
+                        <p class="no-data" style="color: #6c757d; font-style: italic;">No registered participants found.</p>
+                        <button onclick="document.getElementById('participantsDialog').style.display='none'; 
+                                        document.getElementById('dialogOverlay').style.display='none';" 
+                                style="margin-top: 20px; padding: 12px 20px; background-color: ${CLOSE_BTN_BG}; 
+                                    color: ${STATUS_TEXT}; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                            Close
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // --- Render the participants in a two-column grid format ---
+            const participantsHTML = participantList.map(p => {
+                const statusColor = p.confirmationStatus === 'Confirmed' ? STATUS_CONFIRMED : STATUS_PENDING;
+                const statusText = p.confirmationStatus || 'N/A';
+                const registeredDate = p.registrationDate ? new Date(p.registrationDate).toLocaleDateString() : 'N/A';
+                
+                // Use a card-like style for each participant
+                return `
+                    <div class="participant-card" style="
+                        background-color: white; 
+                        border: 1px solid #e0e0e0; 
+                        border-left: 5px solid ${statusColor}; /* Highlight border */
+                        padding: 15px; 
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                    ">
+                        <p style="font-size: 1.2em; font-weight: 600; margin: 0 0 5px 0; color: ${PRIMARY_COLOR};">
+                            ${p.participantName || 'N/A'}
+                        </p>
+                        <p style="font-size: 0.9em; margin: 0 0 5px 0; color: #555;">
+                            <span style="font-weight: 500;">Email:</span> ${p.userEmail}
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em;">
+                            <p style="margin: 0;">
+                                <span style="font-weight: 500;">Status:</span> 
+                                <span style="font-weight: bold; color: ${STATUS_TEXT}; background-color: ${statusColor}; padding: 3px 8px; border-radius: 4px;">
+                                    ${statusText}
+                                </span>
+                            </p>
+                            <p style="margin: 0; color: #777;">
+                                Reg: ${registeredDate}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            containerElement.innerHTML = `
+                <div style="padding: 15px;">
+                    <h2 style="color: ${PRIMARY_COLOR}; margin-bottom: 15px;">Participants for ${eventName || "Event"} (${participantList.length})</h2>
+                    
+                    <div style="
+                        display: grid; 
+                        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+                        gap: 15px; 
+                        max-height: 500px; 
+                        overflow-y: auto; 
+                        padding-right: 10px; /* Space for scrollbar */
+                        padding-bottom: 10px;
+                    ">
+                        ${participantsHTML}
+                    </div>
+                    
+                    <button onclick="document.getElementById('participantsDialog').style.display='none'; 
+                                    document.getElementById('dialogOverlay').style.display='none';" 
+                            style="margin-top: 25px; padding: 12px 20px; background-color: ${CLOSE_BTN_BG}; 
+                                color: ${STATUS_TEXT}; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">
+                        Close
+                    </button>
+                </div>
+            `;
+        }
+       
+        function renderMembers(memberList = members) {
+            const container = document.getElementById('membersContent');
+            container.innerHTML = memberList.map(member => {
+                // Fallback for null/undefined strings
+                const studentId = member.studentId || 'N/A';
+                const position = member.position || 'N/A';
+                const userName = member.userName || 'N/A';
+                const userEmail = member.userEmail || 'N/A';
+                const contribution = member.contribution || 'No contribution listed.';
+                const status = member.status || 'Unknown';
+                // Use studentId for card ID since it's the Primary Key
+                const cardId = studentId;
+
+                // Determine badge class based on status
+                let statusBadgeClass = 'badge-planning'; 
+                if (status === 'Active') {
+                    statusBadgeClass = 'badge-completed'; // Using green for Active
+                } else if (status === 'Inactive') {
+                    statusBadgeClass = 'delete-btn'; // Using red/delete style for Inactive
+                }
+
+                return `
+                    <div class="card member-card">
+                        <div class="member-avatar">${(userName.charAt(0) || '?').toUpperCase()}</div>
+                        <div class="member-info">
+                            <h3 class="member-name">${userName}</h3>
+                            <p class="member-role">ID: ${studentId}</p>
+                            <div class="member-details">
+                                <div class="info-row">
+                                    <span class="info-label">Email:</span>
+                                    <strong style="color: #6d28d9;">${userEmail}</strong>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Position:</span>
+                                    <strong style="color: #6d28d9;">${position}</strong>
+                                    
+                                </div>
+                                <p style="margin-top: 10px; font-size: 13px; color: #7c3aed;">
+                                    ${contribution.substring(0, 70) + (contribution.length > 70 ? '...' : '')}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card-actions" style="flex-direction: column; justify-content: space-between;">
+                            <button class="action-btn edit-btn" onclick="editMember('${cardId}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteMember('${cardId}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderOrganizers(organizerList = organizers) {
+            const container = document.getElementById('organizersContent');
+            
+            // Check if container exists and organizerList is valid
+            if (!container || !organizerList) {
+                console.error("Organizer container or list is missing.");
+                return;
+            }
+
+            container.innerHTML = organizerList.map(organizer => {
+                // --- Safe Data Access and Mapping ---
+                const organizerName = organizer.organizerName || 'N/A';
+                const userEmail = organizer.userEmail || 'N/A';
+                const assignments = organizer.assignments || []; // Default to empty array
+                
+                // Use organizerName for card ID (assuming it's unique, otherwise use userEmail)
+                const cardId = organizerName; 
+                const phoneNumbers = organizer.phoneNumbers || [];
+                let phonesHTML = '<p><strong>Contact:</strong> ';
+                if (phoneNumbers.length > 0) {
+                    // Join the phoneNumbers array elements with a comma and a space
+                    const phoneString = phoneNumbers.join(', ');
+                    phonesHTML += `<span class="phone-numbers">${phoneString}</span></p>`;
+                } else {
+                    phonesHTML += '<span class="no-data">No phone number listed.</span></p>';
+                }
+                // --- Build Assignments List HTML ---
+                let assignmentsHTML = '<p class="assignments-label">Assigned Events:</p>';
+                if (assignments.length > 0) {
+                    // Map the assignments array to a list of <li> elements
+                    const listItems = assignments.map(assignment => {
+                        const eventName = assignment.eventName || 'Unnamed Event';
+                        // Format the date nicely, providing a fallback date string
+                        const assignmentDate = assignment.assignmentDate 
+                            ? new Date(assignment.assignmentDate).toLocaleDateString() 
+                            : 'N/A';
+
+                        return `<li>${eventName} <span style="font-size: 0.8em; color: #aaa;">(${assignmentDate})</span></li>`;
+                    }).join('');
+                    
+                    assignmentsHTML += `<ul class="assignments-list">${listItems}</ul>`;
+                } else {
+                    assignmentsHTML += '<p class="no-assignments">No events currently assigned.</p>';
+                }
+
+                // --- Render the Card ---
+                return `
+                    <div class="card member-card organizer-card">
+                        <div class="member-avatar">${(organizerName.charAt(0) || '?').toUpperCase()}</div>
+                        <div class="member-info">
+                            <h3 class="member-name" style="color: #6d28d9;">${organizerName}</h3>
+                            
+                            
+                            <div class="member-details">
+                                <div class="info-row">
+                                    <span class="info-label">Email:</span>
+                                    <strong style="color: #6d28d9;">${userEmail}</strong>
+                                </div>
+                                
+                                <div class="phones-section" style="margin-top: 10px; padding-top: 5px; border-top: 1px solid #eee;">
+                                    ${phonesHTML}
+                                </div>
+                                <div class="assignments-section" style="margin-top: 10px; padding-top: 5px; border-top: 1px solid #eee;">
+                                    ${assignmentsHTML}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions" style="flex-direction: column; justify-content: space-between;">
+                            <button class="action-btn edit-btn" onclick="editOrganizer('${cardId}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteOrganizer('${cardId}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        function renderVendors(vendorList = vendors) {
+            const container = document.getElementById('vendorsContent');
+            container.innerHTML = vendorList.map(vendor => `
+                <div class="card">
+                    <h3 class="card-title">${vendor.name}</h3>
+                    <div class="card-info">
+                        <div>Type: <strong style="color: inherit;">${vendor.vendorType}</strong></div>
+                        <div>Contact: ${vendor.contact}</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn edit-btn" onclick="editVendor(${vendor.id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteVendor(${vendor.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        
+
+        function renderVenues(venueList = venues) {
+            const container = document.getElementById('venuesContent');
+            if (!container) return;
+
+            if (venueList.length === 0) {
+                container.innerHTML = '<p class="no-data">No venues found.</p>';
+                return;
+            }
+
+            // --- APPLY CSS GRID FOR 3-COLUMN LAYOUT ---
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+            container.style.gap = '20px'; // Spacing between cards
+            // ------------------------------------------
+
+            container.innerHTML = venueList.map(venue => {
+                // --- Safe Data Access and Mapping ---
+                const venueName = venue.venueName || 'N/A';
+                const location = venue.location || 'N/A';
+                const capacity = venue.capacity !== undefined ? venue.capacity : 0;
+                const bookingStatus = venue.bookingStatus || 'Unknown';
+                
+                const cardId = venueName; 
+
+                // Determine avatar character (Using the first letter of the VenueName)
+                const avatarChar = (venueName.charAt(0) || '?').toUpperCase();
+                
+                // Determine badge style based on booking status
+                let statusClass = 'status-available'; 
+                if (bookingStatus.toLowerCase().includes('booked')) {
+                    statusClass = 'status-booked'; 
+                } else if (bookingStatus.toLowerCase().includes('maintenance')) {
+                    statusClass = 'status-maintenance'; 
+                } else if (bookingStatus.toLowerCase().includes('available')) {
+                    statusClass = 'status-available'; // Using green for Available
+                }
+
+                return `
+                    <div class="card member-card organizer-card venue-card">
+                        
+                        <div class="member-avatar">${avatarChar}</div>
+                        
+                        <div class="member-info">
+                            <div class="venue-header">
+                                <h3 class="member-name" style="color: #6d28d9;">${venueName}</h3>
+                                <span class="venue-status ${statusClass}">${bookingStatus}</span>
+                            </div>
+                            
+                            <div class="member-details margin-top: 10px; padding-top: 5px; border-top: 1px solid #eee;">
+                                <div class="info-row">
+                                    <span class="info-label">Capacity:</span>
+                                    <strong style="color: #6d28d9;">${capacity} people</strong>
+                                </div>
+                                
+                                <div class="info-row">
+                                    <span class="info-label">Location:</span>
+                                    <strong style="color: inherit;">${location}</strong>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions" style="flex-direction: column; justify-content: space-between;">
+                            <button class="action-btn edit-btn" onclick="editVenue('${cardId}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteVenue('${cardId}')">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        function switchTab(tab) {
+            activeTab = tab;
+
+            // Toggle "active" class only for the tab that exactly matches
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
+            });
+
+            // Show only the content container matching the active tab, hide others exactly
+            document.getElementById('eventsContent').classList.toggle('hidden', tab !== 'events');
+            document.getElementById('membersContent').classList.toggle('hidden', tab !== 'members');
+            document.getElementById('organizersContent').classList.toggle('hidden', tab !== 'organizers');
+            document.getElementById('vendorsContent').classList.toggle('hidden', tab !== 'vendors');
+            document.getElementById('venuesContent').classList.toggle('hidden', tab !== 'venues');
+
+            // Update Add button text accordingly
+            const addBtn = document.getElementById('addBtnText');
+            switch(tab) {
+                case 'events': addBtn.textContent = 'Add Event'; break;
+                case 'members': addBtn.textContent = 'Add Member'; break;
+                case 'organizers': addBtn.textContent = 'Add Organizer'; break;
+                case 'vendors': addBtn.textContent = 'Add Vendor'; break;
+                case 'venues': addBtn.textContent = 'Add Venue'; break;
+            }
+
+            document.getElementById('searchInput').value = '';
+        }
+
+        function openModal(type = null, item = null) {
+            const editingIdInput = document.getElementById('editingId');
+            
+            const eventFieldName = document.getElementById('eventFieldName');
+            const eventFieldStartDate = document.getElementById('eventFieldStartDate');
+            const eventFieldsEndDate = document.getElementById('eventFieldsEndDate');
+            const eventFieldsDesc = document.getElementById('eventFieldsDesc');
+            const eventFieldsVenue = document.getElementById('eventFieldsVenue');
+            const eventFieldsStatus = document.getElementById('eventFieldsStatus');
+            const eventFieldParticipantsCount = document.getElementById('eventFieldParticipantsCount');
+            
+            const memberFields = document.getElementById('memberFields');
+            const memberFields2 = document.getElementById('memberFields2');
+            const vendorFields = document.getElementById('vendorFields'); 
+            const venueFields = document.getElementById('venueFields');
+            const organizerFields = document.getElementById('organizerFields');
+
+
+            // --- Hiding Logic (CRITICAL: Use optional chaining '?' for robustness) ---
+            eventFieldName?.classList.add('hidden'); 
+            eventFieldStartDate?.classList.add('hidden');
+            eventFieldsEndDate?.classList.add('hidden'); // Targets the End Date container
+            eventFieldsDesc?.classList.add('hidden');
+            eventFieldsVenue?.classList.add('hidden');
+            eventFieldsStatus?.classList.add('hidden');
+
+            memberFields?.classList.add('hidden');
+            memberFields2?.classList.add('hidden');
+            vendorFields?.classList.add('hidden');
+            venueFields?.classList.add('hidden');
+            organizerFields?.classList.add('hidden');
+
+            switch (activeTab) {
+                case 'events':
+                    modalTitle.textContent = item ? 'Edit Event' : 'Add Event';
+                    modalSubmit.textContent = item ? 'Save Changes' : 'Add';
+                    modalForm.action = item ? '/editEvent' : '/addEvent';
+
+                    // --- SHOW ALL EVENT FIELDS ---
+                    eventFieldName?.classList.remove('hidden'); 
+                    eventFieldStartDate?.classList.remove('hidden');
+                    eventFieldsEndDate?.classList.remove('hidden');
+                    eventFieldsVenue?.classList.remove('hidden');
+                    eventFieldsStatus?.classList.remove('hidden');
+                    eventFieldsDesc?.classList.remove('hidden');
+                    
+                    // --- Data Handling ---
+                    if (item) {
+                        // EDIT MODE: Populate all fields
+                        formName.value = item.eventName;
+                        formStartDate.value = item.startDate ? item.startDate.substring(0, 10) : ''; 
+                        formEndDate.value = item.endDate ? item.endDate.substring(0, 10) : '';  
+                        formStatus.value = item.status;   
+                        formDesc.value = item.eventDesc;
+                        formVenueName.value = item.venueName;
+
+                        editingIdInput.value = item.eventName;
+                        
+                    } else {
+                        
+                    }
+                    break;
+                case 'members':
+                    modalTitle.textContent = item ? 'Edit Member' : 'Add Member';
+                    field1.placeholder = 'Role';
+                    memberFields.classList.remove('hidden');
+                    memberFields2.classList.remove('hidden');
+                    if (item) {
+                        document.getElementById('formName').value = item.name;
+                        // document.getElementById('formField1').value = item.role;
+                        document.getElementById('formDepartment').value = item.department;
+                        document.getElementById('formContact').value = item.contact;
+                    }
+                    break;
+                case 'organizers':
+                    modalTitle.textContent = item ? 'Edit Organizer' : 'Add Organizer';
+                    field1.placeholder = 'Role';
+                    organizerFields.classList.remove('hidden'); 
+                    // assuming organizerFields includes inputs like formName, formField1, department, contact similar to members
+                    if (item) {
+                        document.getElementById('formName').value = item.name;
+                        // document.getElementById('formField1').value = item.role;
+                        document.getElementById('formDepartment').value = item.department;
+                        document.getElementById('formContact').value = item.contact;
+                    }
+                    break;
+                case 'vendors':
+                    modalTitle.textContent = item ? 'Edit Vendor' : 'Add Vendor';
+                    field1.placeholder = 'Vendor Type';
+                    vendorFields.classList.remove('hidden');
+                    if (item) {
+                        document.getElementById('formName').value = item.name;
+                        // document.getElementById('formField1').value = item.vendorType;
+                        // Additional vendor-specific fields
+                    }
+                    break;
+                case 'venues':
+                    modalTitle.textContent = item ? 'Edit Venue' : 'Add Venue';
+                    field1.placeholder = 'Location';
+                    venueFields.classList.remove('hidden');
+                    if (item) {
+                        document.getElementById('formName').value = item.name;
+                        // document.getElementById('formField1').value = item.location;
+                        // Additional venue-specific fields
+                    }
+                    break;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.getElementById('modalForm').reset();
+            editingId = null;
+        }
+
+        function editEvent(eventName) {
+            const event = events.find(e => e.eventName === eventName);
+            openModal('edit', event);
+
+            if (event) {
+                openModal('edit', event);
+            } else {
+                // You may want to log an error if the event isn't found
+                console.error("Event not found with name:", eventName);
+            }
+        }
+
+        // function deleteEvent(id) {
+        //     events = events.filter(e => e.id !== id);
+        //     renderEvents();
+        // }
+
+        function deleteEvent(eventName) {
+            if (!confirm(`Are you sure you want to delete the event: ${eventName}? This action is irreversible!`)) {
+                return;
+            }
+            
+            // Create a temporary hidden form to send data via POST
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/deleteEvent'; // The route we just set up in the Java handler
+            
+            // Add the primary key/identifier (eventName) as a hidden input
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'eventName'; // This name must match formData.get("eventName") in the Java handler
+            input.value = eventName;
+            
+            form.appendChild(input);
+            
+            // Temporarily attach the form to the body, submit it, and remove it
+            document.body.appendChild(form);
+            form.submit(); // Triggers the POST request and page reload/redirect
+        }
+
+        function editMember(id) {
+            const member = members.find(m => m.id === id);
+            openModal('edit', member);
+        }
+
+        function deleteMember(id) {
+            members = members.filter(m => m.id !== id);
+            renderMembers();
+        }
+
+        function editOrganizer(id) {
+            const organizer = organizer.find(o => o.id === id);
+            openModal('edit', organizer);
+        }        
+
+        // Modal handling examples for vendors and venues
+        function editVendor(id) {
+            const vendor = vendors.find(v => v.id === id);
+            openModal('edit', vendor);
+        }
+
+        function deleteVendor(id) {
+            vendors = vendors.filter(v => v.id !== id);
+            renderVendors();
+        }
+
+        function editVenue(id) {
+            const venue = venues.find(w => w.id === id);
+            openModal('edit', venue);
+        }
+
+        function deleteVenue(id) {
+            venues = venues.filter(v => v.id !== id);
+            renderVenues();
+        }
+
+// document.getElementById('modalForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+            
+        //     const name = document.getElementById('formName').value;
+        //     const field1 = document.getElementById('formField1').value;
+            
+        //     if (activeTab === 'events') {
+        //         const date = document.getElementById('formDate').value;
+        //         const participants = parseInt(document.getElementById('formParticipants').value);
+                
+        //         if (editingId) {
+        //             const index = events.findIndex(e => e.id === editingId);
+        //             events[index] = { ...events[index], name, category: field1, date, participants };
+        //         } else {
+        //             const newId = Math.max(...events.map(e => e.id), 0) + 1;
+        //             events.push({ id: newId, name, date, category: field1, status: 'Planning', participants });
+        //         }
+        //         renderEvents();
+        //     } else {
+        //         const department = document.getElementById('formDepartment').value;
+        //         const contact = document.getElementById('formContact').value;
+                
+        //         if (editingId) {
+        //             const index = members.findIndex(m => m.id === editingId);
+        //             members[index] = { ...members[index], name, role: field1, department, contact };
+        //         } else {
+        //             const newId = Math.max(...members.map(m => m.id), 0) + 1;
+        //             members.push({ id: newId, name, role: field1, department, contact });
+        //         }
+        //         renderMembers();
+        //     }
+            
+        //     closeModal();
+        // });
+
+        document.getElementById('modalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // const name = document.getElementById('formName').value;
+            // const field1 = document.getElementById('formField1').value;
+
+            const modalForm = e.target;
+            const editingIdInput = document.getElementById('editingId');
+
+            
+            const isEditMode = !!editingIdInput.value;
+            switch (activeTab) {
+                case 'events':
+                    // const date = document.getElementById('formDate').value;
+                    // const participants = parseInt(document.getElementById('formParticipants').value);
+
+                    // eventFieldsDesc?.classList.add('hidden'); // Hiding Category/Description
+                    // eventFieldsParticipants?.classList.add('hidden');
+
+                    // if (editingId) {
+                    //     const index = events.findIndex(e => e.id === editingId);
+                    //     events[index] = { ...events[index], name, category: field1, date, participants };
+                    // } else {
+                    //     const newId = Math.max(...events.map(e => e.id), 0) + 1;
+                    //     events.push({ id: newId, name, date, category: field1, status: 'Planning', participants });
+                    // }
+                    // renderEvents();
+                    // break;
+
+                    let eventData = {};
+                    const originalEventName = editingIdInput.value;
+                    editingIdInput.name = 'originalEventName'; // Set name for the backend parser
+                    editingIdInput.value = originalEventName;
+                    
+                    // Primary Name (PK/Identification)
+                    eventData.eventName = document.getElementById('formName').value.trim();
+                    
+                    // Dates
+                    eventData.eventStartDate = document.getElementById('formStartDate').value;
+                    eventData.eventEndDate = document.getElementById('formEndDate').value;
+
+                    // Description (Textarea)
+                    eventData.eventDesc = document.getElementById('formDesc').value.trim();
+
+                    // Venue and Status (Dropdown)
+                    eventData.venueName = document.getElementById('formVenueName').value.trim();
+                    eventData.status = document.getElementById('formStatus').value; // Value from <select>
+
+                    // --- 2. Client-Side Validation (Minimal) ---
+                    if (!eventData.eventName || !eventData.eventStartDate || !eventData.status) {
+                        alert("Please fill out all required event fields.");
+                        return;
+                    }
+
+                    // --- 3. Prepare Form Action and Submit ---
+                    const actionPath = isEditMode ? '/editEvent' : '/addEvent';
+                    
+                    // Update the form action based on the mode
+                    modalForm.action = actionPath;
+                    
+                    // Since the input fields already have correct 'name' attributes (e.g., name="eventName"),
+                    // the browser will automatically package the data when we call submit().
+                    
+                    // Re-enable the form fields that were hidden in openModal if necessary
+                    // (Only needed if fields were hidden with 'disabled' or if you want to ensure the data is sent)
+                    
+                    // Perform the standard form POST submission
+                    modalForm.submit(); 
+                    modalForm.method = 'POST';
+                    
+                    // After submission (which triggers a page reload/redirect via the server), 
+                    // the modal should be closed.
+                    closeModal(); 
+                    break;
+
+                case 'members':
+                    const department = document.getElementById('formDepartment').value;
+                    const contact = document.getElementById('formContact').value;
+
+                    if (editingId) {
+                        const index = members.findIndex(m => m.id === editingId);
+                        members[index] = { ...members[index], name, role: field1, department, contact };
+                    } else {
+                        const newId = Math.max(...members.map(m => m.id), 0) + 1;
+                        members.push({ id: newId, name, role: field1, department, contact });
+                    }
+                    renderMembers();
+                    break;
+
+                case 'organizers':
+                    const orgDepartment = document.getElementById('formDepartment').value;
+                    const orgContact = document.getElementById('formContact').value;
+
+                    if (editingId) {
+                        const index = organizers.findIndex(o => o.id === editingId);
+                        organizers[index] = { ...organizers[index], name, role: field1, department: orgDepartment, contact: orgContact };
+                    } else {
+                        const newId = Math.max(...organizers.map(o => o.id), 0) + 1;
+                        organizers.push({ id: newId, name, role: field1, department: orgDepartment, contact: orgContact });
+                    }
+                    renderOrganizers();
+                    break;
+
+                case 'vendors':
+                    // Assume vendorType input and other vendor fields similarly
+                    if (editingId) {
+                        const index = vendors.findIndex(v => v.id === editingId);
+                        vendors[index] = { ...vendors[index], name, vendorType: field1 /* plus others */  };
+                    } else {
+                        const newId = Math.max(...vendors.map(v => v.id), 0) + 1;
+                        vendors.push({ id: newId, name, vendorType: field1 /* plus others */ });
+                    }
+                    renderVendors();
+                    break;
+
+                case 'venues':
+                    // Assume location input and other venue fields similarly
+                    if (editingId) {
+                        const index = venues.findIndex(vn => vn.id === editingId);
+                        venues[index] = { ...venues[index], name, location: field1 /* plus others */ };
+                    } else {
+                        const newId = Math.max(...venues.map(vn => vn.id), 0) + 1;
+                        venues.push({ id: newId, name, location: field1 /* plus others */ });
+                    }
+                    renderVenues();
+                    break;
+            }
+
+            closeModal();
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        });
+
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    const query = e.target.value.toLowerCase();
+
+    switch (activeTab) {
+        case 'events':
+            const filteredEvents = events.filter(event =>
+                event.name.toLowerCase().includes(query) ||
+                event.category.toLowerCase().includes(query)
+            );
+            renderEvents(filteredEvents);
+            break;
+
+        case 'members':
+            const filteredMembers = members.filter(member =>
+                member.name.toLowerCase().includes(query) ||
+                member.role.toLowerCase().includes(query)
+            );
+            renderMembers(filteredMembers);
+            break;
+
+        case 'organizers':
+            const filteredOrganizers = organizers.filter(organizer =>
+                organizer.name.toLowerCase().includes(query) ||
+                organizer.role.toLowerCase().includes(query)
+            );
+            renderOrganizers(filteredOrganizers);
+            break;
+
+        case 'vendors':
+            const filteredVendors = vendors.filter(vendor =>
+                vendor.name.toLowerCase().includes(query) ||
+                vendor.vendorType?.toLowerCase().includes(query)
+            );
+            renderVendors(filteredVendors);
+            break;
+
+        case 'venues':
+            const filteredVenues = venues.filter(venue =>
+                venue.name.toLowerCase().includes(query) ||
+                venue.location?.toLowerCase().includes(query)
+            );
+            renderVenues(filteredVenues);
+            break;
+    }
+});
+
+
+        // document.getElementById('searchInput').addEventListener('input', function(e) {
+        //     const query = e.target.value.toLowerCase();
+            
+        //     if (activeTab === 'events') {
+        //         const filtered = events.filter(event => 
+        //             event.name.toLowerCase().includes(query) || 
+        //             event.category.toLowerCase().includes(query)
+        //         );
+        //         renderEvents(filtered);
+        //     } else if (activeTab === 'members') {
+        //         const filtered = members.filter(member => 
+        //             member.name.toLowerCase().includes(query) || 
+        //             member.role.toLowerCase().includes(query)
+        //         );
+        //         renderMembers(filtered);
+        //     }
+        // });
+
+        renderEvents();
+        renderMembers();
+        // renderCategories();
+        renderOrganizers();
+        // renderVendors();
+        renderVenues();
+    </script>
+
+
+    <div id="participantsDialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        background-color: #F8F8FF; /* Light Lavender/White background */
+        border: 1px solid #DDA0DD; /* Pastel Purple border */
+        padding: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+        </div>
+
+    <div id="dialogOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background-color: rgba(173, 216, 230, 0.3); z-index: 999;"></div>
+</body>
+</html>
+
